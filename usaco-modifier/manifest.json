@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "USACO Utility",
+  "version": "1.0",
+  "description": "Useful usaco utility",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://usaco.org/*",
+        "http://usaco.org/index.php?page=viewproblem&cpid=1314"
+      ],
+      "js": [
+        "c2.js"
+      ]
+    }
+  ]
+}

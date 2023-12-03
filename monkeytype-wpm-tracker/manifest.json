@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "MonkeyType Progress",
+  "version": "1.0",
+  "description": "tracks monkeytype progress",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://monkeytype.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "https://monkeytype.com/*",
+    "http://98.42.152.32:5000/*"
+  ]
+}

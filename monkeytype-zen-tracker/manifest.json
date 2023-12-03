@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "MonkeyType Zen Tracker",
+  "version": "1.0",
+  "description": "Keylogs monkeytype zen stuff",
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": [
+        "https://monkeytype.com/*"
+      ]
+    }
+  ]
+}

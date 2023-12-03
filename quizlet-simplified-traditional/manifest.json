@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Simplified to Traditional",
+  "version": "1.0",
+  "description": "Converts quizlet chinese simplified to traditional",
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": [
+        "https://quizlet.com/*"
+      ]
+    }
+  ],
+  "host_permissions": [
+    "https://translate.google.com/"
+  ]
+}
+

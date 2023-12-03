@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "AP Classroom MCQ Logger",
+  "version": "1.0",
+  "description": "Logs ap classroom mcq details for you to review later",
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "matches": [
+        "https://apclassroom.collegeboard.org/*"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "service-worker-main.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
