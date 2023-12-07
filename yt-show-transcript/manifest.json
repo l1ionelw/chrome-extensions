@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "gf - patch v1",
+  "version": "1.0",
+  "description": "hi :)",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://youtube.com/"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
