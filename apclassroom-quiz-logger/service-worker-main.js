@@ -1,4 +1,14 @@
 // chrome.storage.local.get(console.log)
+/*
+chrome.storage.local.clear(function() {
+    var error = chrome.runtime.lastError;
+    if (error) {
+        console.error(error);
+    }
+    // do something more
+});
+chrome.storage.sync.clear();
+ */
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
@@ -19,9 +29,10 @@ function saveLocalStorage(data) {
     })
 }
 
-function getLocalStorage(key) {
-    chrome.storage.local.get([key]).then((result) => {
-        console.log("Value currently is " + result.key);
+function getLocalStorage() {
+    chrome.storage.sync.get(null, function(items) {
+        var allKeys = Object.keys(items);
+        console.log(allKeys);
     });
 }
 

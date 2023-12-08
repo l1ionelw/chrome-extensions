@@ -1,15 +1,22 @@
 chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
+    async function (request, sender, sendResponse) {
         console.log(sender.tab ?
             "from a content script:" + sender.tab.url :
             "from the extension");
         console.log(request)
         if (request.getQuestions === "true") {
-            mcq_details = main();
-            sendResponse({success: "true"});
+            sendLoggingMessage("Retrieving info, please wait")
+            let mcq_details = await main()
+            sendLoggingMessage("Saving data")
+            sendToServiceWorker(mcq_details)
+            sendLoggingMessage("Saved quiz: <strong>" + mcq_details.MCQ_NAME + "</strong>")
         }
     }
 );
+// send message to popup js to show progress
+function sendLoggingMessage(data) {
+    chrome.runtime.sendMessage({logging: data});
+}
 
 function waitForElm(selector) {
     return new Promise(resolve => {
@@ -35,10 +42,6 @@ function waitForElm(selector) {
 });
 
 */
-function entry() {
-    console.log("AP CLASSROOM LOADED")
-    const mcqDetails = main();
-}
 
 function sendToServiceWorker(data) {
     (async () => {
@@ -47,13 +50,13 @@ function sendToServiceWorker(data) {
     })();
 }
 
-function main() {
+async function main() {
     const MCQ_NAME = document.getElementById("mainHeading").innerText
     const MCQ_DATE_DATA = document.getElementsByClassName("header_date justify-center flex mobile:flex-col mt-8 gap-12 text-gray-700 gap-14 items-center")[0].querySelectorAll('span')
     const MCQ_START_TIME = MCQ_DATE_DATA[1].innerText
     const MCQ_END_TIME = MCQ_DATE_DATA[3].innerText
     const MCQ_SCORE = document.getElementsByClassName("dark performance-score")[0].innerText
-    const MCQ_INDEPTH = click_questions()
+    const MCQ_INDEPTH = await click_questions()
     const returnval = {
         "MCQ_NAME": MCQ_NAME,
         "MCQ_START_TIME": MCQ_START_TIME,
@@ -65,7 +68,7 @@ function main() {
     return returnval
 }
 
-function click_questions() {
+async function click_questions() {
     const things = document.querySelectorAll(".text-gray-700")
     for (var x of things) {
         if (x.innerText === "Questions") {
@@ -75,19 +78,21 @@ function click_questions() {
         }
     }
     // click on first mcq question
-    waitForElm(".hover-question-parent").then(() => {
+    const clickQuestion = await waitForElm(".hover-question-parent").then(() => {
         const questions = document.querySelector(".hover-question-parent")
-        let everything = null;
         questions.click()
-        // wait for whole page to load, then parse all divs
-        waitForElm(".mcq-option").then(() => {
-                setTimeout(function () {
-                    allstuff = fulldatacollectionEntry();
-                }, 2000);
-            }
-        )
+        console.log("clicked questions")
     })
-    return allstuff
+    const waitForPageLoad = await waitForElm(".mcq-option").then(() => {
+        console.log("inside mcq parse callback")
+    })
+    return await new Promise((resolve, reject) => {
+        setTimeout(function () {
+            allstuff = fulldatacollectionEntry();
+            resolve(allstuff)
+            return allstuff
+        }, 2000);
+    })
 }
 
 function fulldatacollectionEntry() {
@@ -113,7 +118,7 @@ function fulldatacollectionEntry() {
         }
         everything.push(toPush)
     }
-    console.log(everything)
+    // console.log(everything)
     return everything
 }
 

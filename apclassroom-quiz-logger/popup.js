@@ -1,18 +1,24 @@
 const button = document.getElementById("get-questions");
 let infodiv = document.getElementById("test");
+let externalPage_button = document.getElementById("local-page");
 button.addEventListener("click", async () => {
+    // button clicked, send message to content script to start parsing
     await (async () => {
         const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-        await chrome.tabs.sendMessage(tab.id, {getQuestions: "true"}).then(function (response) {
-            infodiv.innerHTML += response.success + "<br>";
-            if (response.success === "true") {
-                infodiv.innerHTML += "getting questions success<br>";
-            }
-            else if (response.success === "false") {
-                infodiv.innerHTML += "getting questions failed<br>";
-            } else {
-                infodiv.innerHTML += "an unknown error occurred<br>";
-            }
-        })
+        chrome.tabs.sendMessage(tab.id, {getQuestions: "true"})
     })();
 });
+externalPage_button.addEventListener("click",() => {
+    chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
+})
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+        if (request.logging) {
+            infodiv.innerHTML += request.logging += "<br>"
+        }
+    }
+);
