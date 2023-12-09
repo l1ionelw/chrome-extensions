@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Dark Mode",
+  "version": "1.0",
+  "description": "si papi",
+  "icons": {
+    "38": "icon_38.png",
+    "19": "icon_19.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
