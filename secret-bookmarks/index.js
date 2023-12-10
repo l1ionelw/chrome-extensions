@@ -111,5 +111,6 @@ function export_all(json_export) {
     }
 
     download("bookmarks.json", json_export);
+    render.innerHTML += `<br><br>` + json_export
 }
 
