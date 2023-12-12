@@ -41,9 +41,8 @@ function renderInfo(json) {
     const questions = json.QUESTIONS
     const total_questions = questions.length
     for (let i = 0; i < questions.length; i++) {
-        console.log(i)
         var detail = questions[i]
-        var question_number = `<div><h1>Question ${i + 1}/${total_questions}</h1>`
+        var question_number = `<h1>Question ${i + 1}/${total_questions}</h1>`
         var image_title = `<h3>${detail.IMAGE_TITLE == null ? "" : detail.IMAGE_TITLE}</h3>`
         var image_embed = detail.IMAGE_URL == null ? "" : `<img style="max-width: 60%; margin: auto" src="${detail.IMAGE_URL}" alt="image">`
         var question = `<p style="font-size: large">${detail.QUESTION}</p>`
@@ -52,7 +51,8 @@ function renderInfo(json) {
             const buttonId = (i + 1) + ":::" + x.charAt(7)
             question_choices += `<button id="${buttonId}">${x.slice(6)}</button><br><br>`
         }
-        render.innerHTML += `<div id='question-${i + 1}'>` + question_number + image_title + image_embed + question + question_choices + "</div>"
+        let div_hidden = i === 0 ? "" : "display:none"
+        render.innerHTML += `<div id='question-${i + 1}' style="${div_hidden}">` + question_number + image_title + image_embed + question + question_choices + "</div>"
     }
     buttonsEventListener()
 }
@@ -68,11 +68,25 @@ function buttonsEventListener() {
         var question_details = db[quiz_name].QUESTIONS[question_number - 1]
         if (question_details.ANSWER === question_choice) {
             e.target.outerHTML += "<p>Correct answer!</p>"
+            change_question(e.target.id)
+        } else {
+            e.target.outerHTML += "<p> incorrect answer <p>"
         }
     }
     for (let button of buttons) {
         button.addEventListener("click", buttonPressed);
     }
+}
+
+function change_question(question_button) {
+    var curr_div = document.getElementById(question_button).parentElement;
+    var next_question = curr_div.id.split("-")
+    next_question = next_question[0] + "-" + (parseInt(next_question[1]) + 1).toString()
+
+    console.log(curr_div)
+    curr_div.style.display = "none"
+    console.log(next_question)
+    document.getElementById(next_question).style.display = ""
 }
 
 function wipeAll() {

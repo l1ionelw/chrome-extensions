@@ -1,4 +1,4 @@
-const debug = false
+const debug = true
 const render = document.getElementById("render")
 console.log("index loaded")
 document.getElementById("submit").addEventListener("click", () => {

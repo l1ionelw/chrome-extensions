@@ -8,19 +8,15 @@
     "19": "icon_19.png"
   },
   "permissions": [
-    "storage"
-  ],
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ]
-    }
+    "storage",
+    "tabs",
+    "activeTab"
   ],
   "action": {
     "default_popup": "popup.html"
-  }
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
 }

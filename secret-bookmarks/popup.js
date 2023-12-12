@@ -10,31 +10,46 @@ chrome.storage.local.clear(function() {
 chrome.storage.sync.clear();
  */
 
-const save_bookmark = document.getElementById("save-bookmark")
 const view_all = document.getElementById("view-all")
-
-save_bookmark.addEventListener("click", async () => {
-    console.log("saving bookmark")
-    askTabInfo()
-})
 view_all.addEventListener("click", () => {
-    console.log("opening bookmarks html page")
-})
-view_all.addEventListener("click",() => {
-    chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
+    chrome.tabs.create({url: chrome.runtime.getURL("index.html")});
 })
 
-function askTabInfo() {
-    (async () => {
-        const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-        const response = await chrome.tabs.sendMessage(tab.id, {tabRequest: "query"});
-        const details = response.tabResponse.split(":::")
-        const title = details[0]
-        const url = details[1]
-        chrome.storage.local.set({[title]: url}).then(() => {
-            console.log("Value is set");
-            var render = document.getElementById("render")
-            render.innerHTML += `<p>Toggled Website: ${title}</p>`
-        });
-    })();
+const render = document.getElementById("render")
+chrome.tabs.query({}, function (tabs) {
+    main(tabs)
+});
+
+function main(tabs) {
+    tabs.forEach(function (tab) {
+        render.innerHTML += `<button name="${tab.id}" id="open-tab">${tab.title}</button><br><br>`
+        console.log(tab.title + " " + tab.url)
+    })
+    addEventListeners()
+}
+
+function addEventListeners() {
+    const open_tabs = document.querySelectorAll("#open-tab")
+    open_tabs.forEach(function (tab) {
+        tab.addEventListener("click", () => {
+            buttonClickHandler(tab)
+        })
+    })
+}
+
+function buttonClickHandler(tabElement) {
+    chrome.tabs.get(parseInt(tabElement.name), (tab) => {
+        addTabInfo(tab)
+    })
+}
+
+function addTabInfo(tab) {
+    const title = tab.title
+    const url = tab.url
+    console.log(title + " " + url)
+    chrome.storage.local.set({[title]: url}).then(() => {
+        console.log("Value is set");
+        var render = document.getElementById("render")
+        render.innerHTML += `<p>Toggled Website: ${title}</p>`
+    });
 }
