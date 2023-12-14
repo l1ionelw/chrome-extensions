@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "USACO Utility",
   "version": "1.0",
   "description": "Useful usaco utility",
@@ -7,10 +7,10 @@
     {
       "matches": [
         "http://usaco.org/*",
-        "http://usaco.org/index.php?page=viewproblem&cpid=1314"
+        "http://www.usaco.org/*"
       ],
       "js": [
-        "c2.js"
+        "content.js"
       ]
     }
   ]
