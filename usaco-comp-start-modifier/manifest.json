@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "USACO Utility",
+  "version": "1.0",
+  "description": "Useful usaco utility",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://usaco.org/*",
+        "http://www.usaco.org/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
