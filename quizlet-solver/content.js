@@ -55,7 +55,7 @@ async function do_write() {
             x = x.split("|||")
             x[1] = x[1].replaceAll(",", "")
             if (x[1] === prompt) {
-                mouseMove(300, 345)
+                mouseMove(711, 341)
                 await sleep(500)
                 keyboard_type(x[0])
                 await sleep(500)
@@ -96,7 +96,7 @@ async function do_spell() {
             x = x.split("|||")
             x[1] = x[1].replaceAll(",", "")
             if (x[1] === prompt) {
-                mouseMove(270, 235)
+                mouseMove(570, 235)
                 await sleep(500)
                 keyboard_type(x[0])
                 await sleep(500)
