@@ -1,4 +1,4 @@
-let API_KEY = "AIzaSyAyAw09VgCFlU3qXdnWb-PGXQsWfApW4C8"
+let API_KEY = ""
 
 const raw = document.querySelectorAll("span.TermText.notranslate.lang-zh-CN");
 console.log(raw)
