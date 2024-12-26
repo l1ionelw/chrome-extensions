@@ -1,0 +1,17 @@
+{
+    "manifest_version": 3,
+    "name": "AP Classroom Quiz Retake",
+    "version": "1.0.0",
+    "description": "STUDY TIME ",
+    "content_scripts": [
+        {
+            "js": [
+                "content.js"
+            ],
+            "matches": [
+                "http://apclassroom.collegeboard.org/*",
+                "https://apclassroom.collegeboard.org/*"
+            ]
+        }
+    ]
+}
