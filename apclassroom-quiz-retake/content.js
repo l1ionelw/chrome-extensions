@@ -32,19 +32,23 @@ function doFilter() {
   if (performanceIcon) performanceIcon.remove();
 
   // remove icons from answer choices
-  let wrongIcon = document.querySelector("div.icon.--incorrect");
-  if (wrongIcon) wrongIcon.remove();
+  let wrongIcon = document.querySelectorAll("div.icon.--incorrect");
+  for (var x of wrongIcon) x.remove();
 
-  let rightIcon = document.querySelector("div.icon.--correct");
-  if (wrongIcon) rightIcon.remove();
+  let rightIcon = document.querySelectorAll("div.icon.--correct");
+  for (var x of rightIcon) x.remove();
 
   let incorrectWrapper = document.querySelector('.AccessibilityWrapper.--incorrect');
-  if (incorrectWrapper) incorrectWrapper.classList.remove("--incorrect");
-  incorrectWrapper.addEventListener("click", () => { incorrectWrapper.classList.add("--incorrect") })
+  if (incorrectWrapper) {
+    incorrectWrapper.classList.remove("--incorrect");
+    incorrectWrapper.addEventListener("click", () => { incorrectWrapper.classList.add("--incorrect") })
+  }
 
   let correctWrapper = document.querySelector('.AccessibilityWrapper.--correct');
-  if (correctWrapper) correctWrapper.classList.remove("--correct");
-  correctWrapper.addEventListener("click", () => { correctWrapper.classList.add("--correct") })
+  if (correctWrapper) {
+    correctWrapper.classList.remove("--correct");
+    correctWrapper.addEventListener("click", () => { correctWrapper.classList.add("--correct") })
+  }
 
   let chosen = document.querySelector("div.letter.--chosen");
   if (chosen) chosen.classList.remove("--chosen");
